@@ -1,0 +1,26 @@
+create database music_playlist;
+create user songer with password '123';
+alter database music_playlist  owner to songer;
+
+create table if not exists Genre (
+	genre_id serial primary key,
+	genre_name varchar(20) not null unique
+);
+create table if not exists Artist (
+	artist_id serial primary key,
+	genre_id integer references Genre(genre_id),
+	artist_name varchar(40) unique
+);
+create table if not exists Album (
+	id_album serial primary key,
+	album_id integer references Artist(artist_id),
+	album_name varchar(120) unique,
+	year_of_issue integer
+);
+create table if not exists Tracks (
+	id_track serial primary key,
+	track_id integer references Artist(artist_id),
+	track_name varchar(120) unique,
+	track_duration numeric check(track_duration > 0)
+);
+
